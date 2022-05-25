@@ -1,116 +1,86 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+/* A linked list node */
 struct Node {
-
-    int data;
-
-    struct Node* next;
+int data;
+struct Node* next;
 };
 
-void pairWiseSwap(struct Node** head)
+
+void swap(int* a, int* b);
+
+
+void pairWiseSwap(struct Node* head)
 {
-
-    if (*head == NULL || (*head)->next == NULL)
-
-        return;
+struct Node* temp = head;
 
 
-    struct Node* prev = *head;
+while (temp != NULL && temp->next != NULL) {
 
-    struct Node* curr = (*head)->next;
-
-
-    *head = curr;
+swap(&temp->data, &temp->next->data);
 
 
-    while (1) {
-
-        struct Node* next = curr->next;
-
-        curr->next = prev;
-
-
-        if (next == NULL || next->next == NULL) {
-
-            prev->next = next;
-
-            break;
-
-        }
-
-
-        prev->next = next->next;
-
-        prev = next;
-
-        curr = prev->next;
-
-    }
+temp = temp->next->next;
+}
 }
 
-void add(struct Node** head_ref, int new_data)
+
+
+void swap(int* a, int* b)
+{
+int temp;
+temp = *a;
+*a = *b;
+*b = temp;
+}
+
+
+void push(struct Node** head_ref, int new_data)
 {
 
-    struct Node* new_node = (struct Node*)malloc(sizeof(struct Node));
+struct Node* new_node = (struct Node*)malloc(sizeof(struct Node));
 
 
-    new_node->data = new_data;
+new_node->data = new_data;
 
 
-    new_node->next = (*head_ref);
+new_node->next = (*head_ref);
 
 
-    (*head_ref) = new_node;
+(*head_ref) = new_node;
 }
 
 
 void printList(struct Node* node)
 {
-
-    while (node != NULL) {
-
-        printf("%d ", node->data);
-
-        node = node->next;
-
-    }
+while (node != NULL) {
+printf("%d ", node->data);
+node = node->next;
 }
+}
+
 
 int main()
 {
-
-    struct Node* start = NULL;
-    add(&start, 8);
-
-    add(&start, 7);
-
-    add(&start, 6);
-
-    add(&start, 5);
-
-    add(&start, 4);
-
-    add(&start, 2);
-
-   add(&start, 2);
-
-  add(&start, 1);
-
-    printf("\n Linked list before calling  pairWiseSwap() ");
-
-    printList(start);
+struct Node* start = NULL;
 
 
-    pairWiseSwap(&start);
+;
+push(&start, 5);
+push(&start, 4);
+push(&start, 3);
+push(&start, 2);
+push(&start, 1);
 
+printf("Linked list before calling pairWiseSwap()\n");
+printList(start);
 
-    printf("\n Linked list after calling  pairWiseSwap() ");
+pairWiseSwap(start);
 
-    printList(start);
+printf("\nLinked list after calling pairWiseSwap()\n");
+printList(start);
 
-
-    getchar();
-
-    return 0;
+return 0;
 }
+
